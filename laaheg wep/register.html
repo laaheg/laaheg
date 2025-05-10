@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>إنشاء حساب | لاحق</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="icon" href="assets/images/laaheg-logo.png">
+  <style>
+    .register-container {
+      max-width: 400px;
+      margin: 5rem auto;
+      background: white;
+      padding: 2.5rem;
+      border-radius: 15px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+    }
+    .register-container h1 {
+      color: var(--main-purple);
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .register-container input {
+      width: 100%;
+      padding: 0.7rem;
+      margin-bottom: 1.2rem;
+      font-size: 1rem;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      font-family: 'Cairo', sans-serif;
+    }
+    .register-container button {
+      width: 100%;
+      background-color: var(--main-purple);
+      color: white;
+      padding: 0.9rem;
+      border: none;
+      border-radius: 30px;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background 0.3s;
+    }
+    .register-container button:hover {
+      background-color: var(--light-purple);
+    }
+    .login-link {
+      display: block;
+      text-align: center;
+      margin-top: 1rem;
+      font-size: 0.9rem;
+    }
+    .login-link a {
+      color: var(--main-purple);
+      text-decoration: none;
+    }
+    .login-link a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="main-header">
+    <div class="logo-container">
+      <img src="assets/images/laaheg-logo.png" alt="شعار لاحق" />
+      <strong>LAAHEG | لاحق</strong>
+    </div>
+    <nav class="main-nav">
+      <a href="index.html">الرئيسية</a>
+      <a href="listings.html">العقارات</a>
+      <a href="my_bookings.html">حجوزاتي</a>
+      <a href="payment_methods.html">سبل الدفع</a>
+      <a href="contact.html">تواصل معنا</a>
+      <a href="login.html">تسجيل الدخول</a>
+    </nav>
+  </header>
+  
+
+  <main class="register-container">
+    <h1>إنشاء حساب جديد</h1>
+    <form onsubmit="registerUser(event)">
+      <input type="text" id="name" placeholder="الاسم الكامل" required>
+      <input type="email" id="email" placeholder="البريد الإلكتروني" required>
+      <input type="tel" id="phone" placeholder="رقم الجوال" required>
+      <input type="password" id="password" placeholder="كلمة المرور" required>
+      <button type="submit">تسجيل</button>
+    </form>
+    <div class="login-link">
+      لديك حساب؟ <a href="login.html">سجّل الدخول</a>
+    </div>
+  </main>
+
+  <footer class="main-footer" style="text-align:center; padding: 1rem; background-color:#f9f9f9;">
+    <p>© 2025 لاحق | جميع الحقوق محفوظة</p>
+    <div style="margin-top: 0.5rem;">
+      <a href="https://twitter.com/laaheg" target="_blank">تويتر</a> |
+      <a href="https://instagram.com/laaheg" target="_blank">إنستغرام</a> |
+      <a href="payment_policy.html">سياسة الدفع</a>
+    </div>
+  </footer>
+  
+
+  <script>
+    function registerUser(e) {
+    e.preventDefault();
+
+    const email = document.getElementById("email").value.trim();
+    const name = document.getElementById("name").value.trim();
+    const phone = document.getElementById("phone").value.trim();
+
+    if (email.toLowerCase() === "admin@laaheg.com") {
+      alert("لا يمكن استخدام هذا البريد لأنه مخصص للمشرف.");
+      return;
+    }
+
+    const user = {
+      name,
+      email,
+      phone
+    };
+
+    localStorage.setItem("user", JSON.stringify(user));
+    localStorage.setItem("loggedIn", "true");
+    localStorage.setItem("isAdmin", "false");
+
+    window.location.href = "dashboard.html";
+  }
+  </script>
+
+</body>
+</html>

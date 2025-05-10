@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <title>تحويلات بنكية | لوحة المشرف</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <link rel="icon" href="assets/images/laaheg-logo.png" />
+  <style>
+    .admin-container {
+      max-width: 850px;
+      margin: 3rem auto;
+      background: white;
+      padding: 2.5rem;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    }
+    .admin-container h1 {
+      text-align: center;
+      color: var(--main-purple);
+      margin-bottom: 2rem;
+    }
+    .transfer-entry {
+      background: #f9f4fc;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      border-radius: 12px;
+      line-height: 1.7;
+    }
+    .transfer-entry button {
+      background: #d32f2f;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      cursor: pointer;
+      margin-top: 0.5rem;
+    }
+  </style>
+</head>
+<body onload="loadTransfers()">
+
+  <script>
+    if (localStorage.getItem("isAdmin") !== "true") {
+      alert("❌ ليس لديك صلاحية للوصول إلى هذه الصفحة.");
+      window.location.href = "login.html";
+    }
+  </script>
+
+<header class="main-header">
+  <div class="logo-container">
+    <img src="assets/images/laaheg-logo.png" alt="شعار لاحق" />
+    <strong>LAAHEG | لاحق</strong>
+  </div>
+  <nav class="main-nav">
+    <a href="index.html">الرئيسية</a>
+    <a href="listings.html">العقارات</a>
+    <a href="my_bookings.html">حجوزاتي</a>
+    <a href="payment_methods.html">سبل الدفع</a>
+    <a href="contact.html">تواصل معنا</a>
+    <a href="login.html">تسجيل الدخول</a>
+  </nav>
+</header>
+
+  <main class="admin-container">
+    <h1>التحويلات البنكية المستلمة</h1>
+    <div id="transferList"></div>
+  </main>
+
+  <footer class="main-footer" style="text-align:center; padding: 1rem; background-color:#f9f9f9;">
+    <p>© 2025 لاحق | جميع الحقوق محفوظة</p>
+    <div style="margin-top: 0.5rem;">
+      <a href="https://twitter.com/laaheg" target="_blank">تويتر</a> |
+      <a href="https://instagram.com/laaheg" target="_blank">إنستغرام</a> |
+      <a href="payment_policy.html">سياسة الدفع</a>
+    </div>
+  </footer>
+  
+  <script>
+    function loadTransfers() {
+      const transfers = JSON.parse(localStorage.getItem("transfers")) || [];
+      const container = document.getElementById("transferList");
+
+      if (transfers.length === 0) {
+        container.innerHTML = "<p>لا توجد تحويلات حتى الآن.</p>";
+        return;
+      }
+
+      transfers.forEach((t, index) => {
+        const div = document.createElement("div");
+        div.className = "transfer-entry";
+        div.innerHTML = `
+          <p><strong>الاسم:</strong> ${t.name}</p>
+          <p><strong>المبلغ:</strong> ${t.amount} ر.س</p>
+          <p><strong>المرجع:</strong> ${t.ref || 'غير محدد'}</p>
+          <p><strong>الملاحظات:</strong> ${t.notes || '-'}</p>
+          <p><strong>التاريخ:</strong> ${t.date}</p>
+          <button onclick="deleteTransfer(${index})">حذف</button>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    function deleteTransfer(index) {
+      let transfers = JSON.parse(localStorage.getItem("transfers")) || [];
+      transfers.splice(index, 1);
+      localStorage.setItem("transfers", JSON.stringify(transfers));
+      loadTransfers();
+    }
+    function downloadCSV() {
+  const transfers = JSON.parse(localStorage.getItem("transfers")) || [];
+  if (transfers.length === 0) {
+    alert("لا توجد تحويلات حالياً.");
+    return;
+  }
+
+  let csv = "الاسم,المبلغ,المرجع,الملاحظات,التاريخ\n";
+  transfers.forEach(t => {
+    csv += `"${t.name}","${t.amount}","${t.ref || '-'}","${t.notes || '-'}","${t.date}"\n`;
+  });
+
+  const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "تحويلات_لاحق.csv";
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+}
+
+  </script>
+
+</body>
+</html>

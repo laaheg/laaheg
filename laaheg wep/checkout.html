@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>إتمام الحجز والدفع | لاحق</title>
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <link rel="icon" href="assets/images/laaheg-logo.png" />
+  <style>
+    body {
+      background-color: #f6f3fa;
+      font-family: 'Cairo', sans-serif;
+    }
+    .checkout-container {
+      max-width: 850px;
+      margin: 3rem auto;
+      background: white;
+      padding: 2.5rem;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    }
+    h2 {
+      color: #87407b;
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .summary {
+      background-color: #f9f6fc;
+      padding: 1.5rem;
+      border-radius: 12px;
+      margin-bottom: 2rem;
+      line-height: 2;
+    }
+    label {
+      font-weight: bold;
+      margin-top: 1rem;
+    }
+    input, select {
+      width: 100%;
+      padding: 0.8rem;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      margin-bottom: 1.2rem;
+    }
+    .payment-options label {
+      display: block;
+      margin-bottom: 0.6rem;
+    }
+    button {
+      width: 100%;
+      background-color: #87407b;
+      color: white;
+      padding: 1rem;
+      font-size: 1.1rem;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      margin-top: 1rem;
+    }
+    .cancel-btn {
+      background-color: #d32f2f;
+    }
+    .secure-note {
+      text-align: center;
+      font-size: 0.9rem;
+      color: #4caf50;
+      margin-top: 1rem;
+    }
+  </style>
+</head>
+<body onload="loadBookingSummary()">
+
+  <div class="checkout-container">
+    <h2>مراجعة وتأكيد الحجز</h2>
+
+    <div class="summary" id="booking-summary">
+      <!-- يتم تعبئتها تلقائياً -->
+    </div>
+
+    <label for="arrival-time">🕐 وقت الوصول المتوقع:</label>
+    <input type="time" id="arrival-time" />
+
+    <label for="departure-time">🕐 وقت المغادرة المتوقع:</label>
+    <input type="time" id="departure-time" />
+
+    <div class="payment-options">
+      <h4 style="margin-top:2rem;">💳 اختر طريقة الدفع:</h4>
+      <label><input type="radio" name="method" value="card"> 💳 بطاقة مدى / فيزا / ماستركارد</label>
+      <label><input type="radio" name="method" value="installment"> 🪙 تقسيط عبر تمارا / تابي</label>
+      <label><input type="radio" name="method" value="applepay"> 🅰 Apple Pay</label>
+    </div>
+
+    <label>رقم البطاقة:</label>
+    <input type="text" id="card-number" placeholder="1234 5678 9012 3456" />
+
+    <div style="display: flex; gap: 1rem;">
+      <div style="flex:1;">
+        <label>تاريخ الانتهاء:</label>
+        <input type="text" id="expiry" placeholder="MM/YY" />
+      </div>
+      <div style="flex:1;">
+        <label>CVV:</label>
+        <input type="text" id="cvv" placeholder="123" />
+      </div>
+    </div>
+
+    <button onclick="confirmPayment()">تأكيد الحجز والدفع</button>
+    <button class="cancel-btn" onclick="cancelCheckout()">❌ إلغاء العملية والعودة</button>
+
+    <p class="secure-note">🛡️ معلوماتك مشفرة وآمنة بنسبة 100%</p>
+  </div>
+
+  <script>
+    function loadBookingSummary() {
+      const bookings = JSON.parse(localStorage.getItem("bookings")) || [];
+      const last = bookings[bookings.length - 1];
+
+      if (!last) {
+        document.getElementById("booking-summary").innerHTML = "<p>❌ لا توجد بيانات حجز.</p>";
+        return;
+      }
+
+      document.getElementById("booking-summary").innerHTML = `
+        <p><strong>🏠 العقار:</strong> ${last.title}</p>
+        <p><strong>💰 السعر:</strong> ${last.price}</p>
+        <p><strong>🗓️ تاريخ الدخول:</strong> ${last.checkin || '---'}</p>
+        <p><strong>🗓️ تاريخ الخروج:</strong> ${last.checkout || '---'}</p>
+      `;
+    }
+
+    function confirmPayment() {
+      const method = document.querySelector('input[name="method"]:checked');
+      const card = document.getElementById("card-number").value.trim();
+      const expiry = document.getElementById("expiry").value.trim();
+      const cvv = document.getElementById("cvv").value.trim();
+      const arrival = document.getElementById("arrival-time").value;
+      const departure = document.getElementById("departure-time").value;
+
+      if (!method) {
+        alert("يرجى اختيار وسيلة الدفع");
+        return;
+      }
+
+      if (!card || !expiry || !cvv) {
+        alert("يرجى تعبئة بيانات البطاقة بشكل صحيح");
+        return;
+      }
+
+      if (!arrival || !departure) {
+        alert("يرجى إدخال وقت الوصول والمغادرة");
+        return;
+      }
+
+      // حفظ الوقت في sessionStorage لعرضه في صفحة الدفع
+      sessionStorage.setItem("arrival-time", arrival);
+      sessionStorage.setItem("departure-time", departure);
+
+      alert("✅ تم الدفع والحجز بنجاح!");
+      window.location.href = "payment_success.html";
+    }
+
+    function cancelCheckout() {
+      // حذف الوقت فقط (مع الاحتفاظ بالحجز)
+      sessionStorage.removeItem("arrival-time");
+      sessionStorage.removeItem("departure-time");
+      window.location.href = "index.html";
+    }
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>إدارة الحجوزات | لوحة المشرف</title>
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <link rel="icon" href="assets/images/laaheg-logo.png" />
+  <style>
+    .admin-container {
+      max-width: 850px;
+      margin: 3rem auto;
+      background: white;
+      padding: 2.5rem;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    }
+    .admin-container h1 {
+      color: var(--main-purple);
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .booking-entry {
+      background: #f9f4fc;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      border-radius: 12px;
+      line-height: 1.8;
+    }
+    .booking-entry button {
+      background: #d32f2f;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      cursor: pointer;
+      margin-top: 0.5rem;
+    }
+  </style>
+</head>
+<body onload="loadAllBookings()">
+
+  <header class="main-header">
+    <div class="logo-container">
+      <img src="assets/images/laaheg-logo.png" alt="شعار لاحق" />
+      <strong>LAAHEG | لاحق</strong>
+    </div>
+    <nav class="main-nav">
+      <a href="index.html">الرئيسية</a>
+      <a href="listings.html">العقارات</a>
+      <a href="my_bookings.html">حجوزاتي</a>
+      <a href="payment_methods.html">سبل الدفع</a>
+      <a href="contact.html">تواصل معنا</a>
+      <a href="login.html">تسجيل الدخول</a>
+    </nav>
+  </header>
+  
+
+  <main class="admin-container">
+    <h1>حجوزات جميع المستخدمين</h1>
+    <div id="adminBookings"></div>
+  </main>
+
+  <footer class="main-footer" style="text-align:center; padding: 1rem; background-color:#f9f9f9;">
+    <p>© 2025 لاحق | جميع الحقوق محفوظة</p>
+    <div style="margin-top: 0.5rem;">
+      <a href="https://twitter.com/laaheg" target="_blank">تويتر</a> |
+      <a href="https://instagram.com/laaheg" target="_blank">إنستغرام</a> |
+      <a href="payment_policy.html">سياسة الدفع</a>
+    </div>
+  </footer>
+  
+
+  <script>
+    function loadAllBookings() {
+      const bookings = JSON.parse(localStorage.getItem("bookings")) || [];
+      const container = document.getElementById("adminBookings");
+
+      
+      
+  if (localStorage.getItem("isAdmin") !== "true") {
+    alert("ليس لديك صلاحية للوصول إلى هذه الصفحة.");
+    window.location.href = "login.html";
+  }
+
+
+
+      if (bookings.length === 0) {
+        container.innerHTML = "<p>لا توجد حجوزات حتى الآن.</p>";
+        return;
+      }
+
+      bookings.forEach((b, index) => {
+        const div = document.createElement("div");
+        div.className = "booking-entry";
+        div.innerHTML = `
+          <p><strong>العقار:</strong> ${b.title}</p>
+          <p><strong>السعر:</strong> ${b.price}</p>
+          <p><strong>تاريخ الحجز:</strong> ${b.date}</p>
+          <button onclick="removeBooking(${index})">حذف الحجز</button>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    function removeBooking(index) {
+      let bookings = JSON.parse(localStorage.getItem("bookings")) || [];
+      bookings.splice(index, 1);
+      localStorage.setItem("bookings", JSON.stringify(bookings));
+      loadAllBookings();
+    }
+  </script>
+
+</body>
+</html>

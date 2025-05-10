@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>الحوالة البنكية | لاحق</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <link rel="icon" href="assets/images/laaheg-logo.png" />
+  <style>
+    .bank-container {
+      max-width: 800px;
+      margin: 3rem auto;
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    }
+    .bank-container h1 {
+      text-align: center;
+      color: var(--main-purple);
+      margin-bottom: 1.5rem;
+    }
+    .bank-details {
+      background: #f3f0fa;
+      padding: 1rem 1.5rem;
+      border-radius: 10px;
+      margin-bottom: 2rem;
+      line-height: 1.8;
+    }
+    form label {
+      font-weight: bold;
+      display: block;
+      margin: 10px 0 5px;
+    }
+    form input, form textarea {
+      width: 100%;
+      padding: 0.7rem;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      margin-bottom: 1rem;
+    }
+    button {
+      background-color: var(--main-purple);
+      color: white;
+      padding: 0.8rem 2rem;
+      border: none;
+      border-radius: 30px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    .success-message {
+      text-align: center;
+      color: green;
+      margin-top: 1rem;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="main-header">
+    <div class="logo-container">
+      <img src="assets/images/laaheg-logo.png" alt="شعار لاحق" />
+      <strong>LAAHEG | لاحق</strong>
+    </div>
+    <nav class="main-nav">
+      <a href="index.html">الرئيسية</a>
+      <a href="listings.html">العقارات</a>
+      <a href="my_bookings.html">حجوزاتي</a>
+      <a href="payment_methods.html">سبل الدفع</a>
+      <a href="contact.html">تواصل معنا</a>
+      <a href="login.html">تسجيل الدخول</a>
+    </nav>
+  </header>
+  
+
+  <main class="bank-container">
+    <h1>بيانات الحوالة البنكية</h1>
+    <div class="bank-details">
+      <p><strong>اسم الحساب:</strong> مؤسسة لاحق العقارية</p>
+      <p><strong>رقم الحساب (IBAN):</strong> SA12345678901234567890</p>
+      <p><strong>البنك:</strong> البنك الأهلي السعودي</p>
+      <p><strong>الرمز المرجعي:</strong> استخدم رقم الحجز في خانة الوصف</p>
+    </div>
+
+    <form onsubmit="submitTransfer(event)">
+      <label for="name">اسمك الكامل</label>
+      <input type="text" id="name" required>
+
+      <label for="amount">المبلغ المحول</label>
+      <input type="number" id="amount" required>
+
+      <label for="ref">رقم المرجع (إذا وُجد)</label>
+      <input type="text" id="ref">
+
+      <label for="notes">ملاحظات</label>
+      <textarea id="notes" rows="4"></textarea>
+
+      <button type="submit">تأكيد الحوالة</button>
+      <div id="successMsg" class="success-message">✅ تم إرسال بيانات الحوالة بنجاح! سيتم مراجعتها خلال 24 ساعة.</div>
+    </form>
+  </main>
+
+  <footer class="main-footer" style="text-align:center; padding: 1rem; background-color:#f9f9f9;">
+    <p>© 2025 لاحق | جميع الحقوق محفوظة</p>
+    <div style="margin-top: 0.5rem;">
+      <a href="https://twitter.com/laaheg" target="_blank">تويتر</a> |
+      <a href="https://instagram.com/laaheg" target="_blank">إنستغرام</a> |
+      <a href="payment_policy.html">سياسة الدفع</a>
+    </div>
+  </footer>
+  >
+
+  <script>
+    function submitTransfer(e) {
+      e.preventDefault();
+      const transfer = {
+        name: document.getElementById("name").value,
+        amount: document.getElementById("amount").value,
+        ref: document.getElementById("ref").value,
+        notes: document.getElementById("notes").value,
+        date: new Date().toLocaleString()
+      };
+      const transfers = JSON.parse(localStorage.getItem("transfers")) || [];
+      transfers.push(transfer);
+      localStorage.setItem("transfers", JSON.stringify(transfers));
+      document.getElementById("successMsg").style.display = "block";
+      e.target.reset();
+    }
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>تواصل معنا | لاحق</title>
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <link rel="icon" href="assets/images/laaheg-logo.png" />
+  <style>
+    .contact-form {
+      max-width: 600px;
+      margin: 3rem auto;
+      background: white;
+      padding: 2.5rem;
+      border-radius: 15px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+    }
+    .contact-form label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: bold;
+      color: var(--dark-purple);
+    }
+    .contact-form input,
+    .contact-form textarea {
+      width: 100%;
+      padding: 0.8rem;
+      margin-bottom: 1.2rem;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      font-family: 'Cairo', sans-serif;
+      font-size: 1rem;
+    }
+    .contact-form textarea {
+      height: 130px;
+      resize: vertical;
+    }
+    .contact-form button {
+      background-color: var(--main-purple);
+      color: white;
+      border: none;
+      padding: 0.9rem 1.5rem;
+      border-radius: 30px;
+      font-weight: bold;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .contact-form button:hover {
+      background-color: var(--light-purple);
+    }
+    .success-message {
+      text-align: center;
+      margin-top: 1rem;
+      color: green;
+      font-weight: bold;
+      display: none;
+    }
+    .contact-info, .complaint-info {
+      max-width: 600px;
+      margin: 2rem auto;
+      padding: 1.5rem;
+      background-color: #f7f3fa;
+      border-radius: 12px;
+      line-height: 1.8;
+    }
+    .contact-info h2,
+    .complaint-info h2 {
+      color: var(--main-purple);
+      margin-bottom: 1rem;
+    }
+    .contact-info a {
+      color: var(--main-purple);
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="main-header">
+    <div class="logo-container">
+      <img src="assets/images/laaheg-logo.png" alt="شعار لاحق" />
+      <strong>LAAHEG | لاحق</strong>
+    </div>
+    <nav class="main-nav">
+      <a href="index.html">الرئيسية</a>
+      <a href="listings.html">العقارات</a>
+      <a href="my_bookings.html">حجوزاتي</a>
+      <a href="payment_methods.html">سبل الدفع</a>
+      <a href="contact.html">تواصل معنا</a>
+      <a href="login.html">تسجيل الدخول</a>
+    </nav>
+  </header>
+  
+  <main>
+    <h1 class="section-title">نحن هنا لخدمتك</h1>
+
+    <section class="contact-info">
+      <h2>معلومات التواصل</h2>
+      <p><strong>رقم الهاتف:</strong> <a href="tel: + 9660138300726 "> + 9660138300726 </a></p>
+      <p><strong>البريد الإلكتروني:</strong> <a href="mailto:laahegservice@gmail.com">laahegservice@gmail.com</a></p>
+      <p><strong>وسائل التواصل الاجتماعي:</strong></p>
+      <ul>
+        <li><a href="https://twitter.com/LAAHEG1" target="_blank">تويتر @LAAHEG1</a></li>
+        <li><a href="https://instagram.com/laaheg1" target="_blank">إنستغرام @laaheg1</a></li>
+      </ul>
+    </section>
+
+    <section class="complaint-info">
+      <h2>تقديم شكوى</h2>
+      <p>يمكنك تقديم شكوى من خلال النموذج أدناه. يتم الرد خلال <strong>24 إلى 48 ساعة</strong> ويتم معالجة الشكوى خلال <strong>5 أيام عمل</strong> كحد أقصى.</p>
+    </section>
+
+    <form class="contact-form" onsubmit="sendMessage(event)">
+      <label for="name">الاسم الكامل</label>
+      <input type="text" id="name" required>
+
+      <label for="email">البريد الإلكتروني</label>
+      <input type="email" id="email" required>
+
+      <label for="message">محتوى الرسالة / الشكوى</label>
+      <textarea id="message" required></textarea>
+
+      <button type="submit">إرسال</button>
+      <div id="success" class="success-message">تم إرسال الرسالة بنجاح! سنقوم بالرد خلال 48 ساعة.</div>
+    </form>
+  </main>
+
+  <footer class="main-footer" style="text-align:center; padding: 1rem; background-color:#570249;">
+    <p>© 2025 لاحق | جميع الحقوق محفوظة</p>
+    <div style="margin-top: 0.5rem;">
+      <a href="index.html">🏠 الرئيسية</a> |
+      <a href="https://twitter.com/LAAHEG1" target="_blank">تويتر</a> |
+      <a href="https://instagram.com/laaheg1" target="_blank">إنستغرام</a> |
+      <a href="payment_policy.html">سياسة الدفع</a> |
+      <a href="cancel_policy.html">سياسة الإلغاء</a> |
+      <a href="privacy_policy.html">سياسة الخصوصية</a> |
+      <a href="terms.html">الشروط والأحكام</a>
+    </div>
+  </footer>
+  
+
+  <script>
+    function sendMessage(e) {
+      e.preventDefault();
+      document.getElementById("success").style.display = "block";
+      setTimeout(() => {
+        document.getElementById("success").style.display = "none";
+        document.querySelector(".contact-form").reset();
+      }, 4000);
+    }
+  </script>
+
+</body>
+</html>

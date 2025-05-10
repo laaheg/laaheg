@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <title>سبل الدفع | لاحق</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <link rel="icon" href="assets/images/laaheg-logo.png" />
+  <style>
+    .methods-container {
+      max-width: 850px;
+      margin: 3rem auto;
+      background: white;
+      padding: 2.5rem;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+      line-height: 1.9;
+    }
+    .methods-container h1 {
+      text-align: center;
+      color: var(--main-purple);
+      margin-bottom: 2rem;
+    }
+    .methods-container ul {
+      padding-right: 1.5rem;
+    }
+    .methods-container li {
+      margin-bottom: 1rem;
+    }
+    .methods-container .pay-button {
+      margin-top: 2rem;
+      display: block;
+      text-align: center;
+    }
+    .methods-container .pay-button a {
+      background-color: var(--main-purple);
+      color: white;
+      padding: 12px 30px;
+      border-radius: 30px;
+      font-size: 1rem;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="main-header">
+    <div class="logo-container">
+      <img src="assets/images/laaheg-logo.png" alt="شعار لاحق" />
+      <strong>LAAHEG | لاحق</strong>
+    </div>
+    <nav class="main-nav">
+      <a href="index.html">الرئيسية</a>
+      <a href="listings.html">العقارات</a>
+      <a href="my_bookings.html">حجوزاتي</a>
+      <a href="payment_methods.html">سبل الدفع</a>
+      <a href="contact.html">تواصل معنا</a>
+      <a href="login.html">تسجيل الدخول</a>
+    </nav>
+  </header>
+  
+
+  <main class="methods-container">
+    <h1>طرق الدفع المتاحة</h1>
+    <ul>
+      <li>💳 الدفع الإلكتروني (قريبًا عبر Moyasar / STC Pay)</li>
+      <li>🏦 حوالة بنكية إلى حسابنا الرسمي - نرسل التفاصيل بعد الحجز</li>
+      <li>💵 الدفع عند الوصول (لخدمة محددة فقط)</li>
+    </ul>
+
+    <h2>ملاحظات هامة:</h2>
+    <ul>
+      <li>يجب تأكيد الحجز خلال 24 ساعة من اختيار وسيلة الدفع.</li>
+      <li>في حال لم يتم الدفع أو التواصل، سيتم إلغاء الحجز تلقائيًا.</li>
+    </ul>
+
+    <div class="pay-button">
+      <a href="payment_success.html">إتمام الحجز والدفع</a>
+    </div>
+  </main>
+
+  <footer class="main-footer" style="text-align:center; padding: 1rem; background-color:#570249;">
+    <p>© 2025 لاحق | جميع الحقوق محفوظة</p>
+    <div style="margin-top: 0.5rem;">
+      <a href="index.html">🏠 الرئيسية</a> |
+      <a href="https://twitter.com/LAAHEG1" target="_blank">تويتر</a> |
+      <a href="https://instagram.com/laaheg1" target="_blank">إنستغرام</a> |
+      <a href="payment_policy.html">سياسة الدفع</a> |
+      <a href="cancel_policy.html">سياسة الإلغاء</a> |
+      <a href="privacy_policy.html">سياسة الخصوصية</a> |
+      <a href="terms.html">الشروط والأحكام</a>
+    </div>
+  </footer>
+  
+  <script>
+    document.querySelector(".pay-button a").addEventListener("click", function(e) {
+      e.preventDefault();
+  
+      // تحقق من وجود حجز سابق
+      const bookings = JSON.parse(localStorage.getItem("bookings")) || [];
+  
+      if (bookings.length === 0) {
+        alert("يرجى اختيار عقار والحجز أولاً قبل الدفع.");
+        window.location.href = "listings.html";
+      } else {
+        window.location.href = "payment_success.html";
+      }
+    });
+  </script>
+    
+</body>
+</html>

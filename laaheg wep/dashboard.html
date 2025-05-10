@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>لوحة المستخدم | لاحق</title>
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <link rel="icon" href="assets/images/laaheg-logo.png" />
+</head>
+<body onload="loadDashboard()">
+
+  <!-- ✅ Header الموحد -->
+  <header class="main-header">
+    <div class="logo-container">
+      <img src="assets/images/laaheg-logo.png" alt="شعار لاحق" />
+      <strong>LAAHEG | لاحق</strong>
+    </div>
+    <nav class="main-nav">
+      <a href="index.html">الرئيسية</a>
+      <a href="listings.html">العقارات</a>
+      <a href="my_bookings.html">حجوزاتي</a>
+      <a href="dashboard.html" class="active">لوحة التحكم</a>
+      <a href="login.html" onclick="logoutUser()">تسجيل الخروج</a>
+    </nav>
+  </header>
+
+  <main class="dashboard">
+    <h1>مرحبًا بك في حسابك</h1>
+    <div id="user-info" class="info-box"></div>
+    <div id="admin-links" style="margin-top: 1.5rem;"></div>
+
+    <h2 style="margin-top: 3rem;">إدارة المستخدمين</h2>
+    <input type="text" id="newUser" placeholder="اسم المستخدم الجديد" />
+    <button onclick="addUser()">إضافة</button>
+    <ul id="userList"></ul>
+
+    <h2 style="margin-top: 2rem;">إدارة العقارات</h2>
+    <input type="text" id="newProperty" placeholder="اسم العقار الجديد" />
+    <button onclick="addProperty()">إضافة</button>
+    <ul id="propertyList"></ul>
+  </main>
+
+  <!-- ✅ Footer الموحد -->
+  <footer class="main-footer" style="text-align:center; padding: 1rem; background-color:#570249;">
+    <p>© 2025 لاحق | جميع الحقوق محفوظة</p>
+    <div style="margin-top: 0.5rem;">
+      <a href="index.html">🏠 الرئيسية</a> |
+      <a href="https://twitter.com/LAAHEG1" target="_blank">تويتر</a> |
+      <a href="https://instagram.com/laaheg1" target="_blank">إنستغرام</a> |
+      <a href="payment_policy.html">سياسة الدفع</a> |
+      <a href="cancel_policy.html">سياسة الإلغاء</a> |
+      <a href="privacy_policy.html">سياسة الخصوصية</a> |
+      <a href="terms.html">الشروط والأحكام</a>
+    </div>
+  </footer>
+
+  <script src="assets/js/script.js"></script>
+  <script>
+    function loadDashboard() {
+      const user = JSON.parse(localStorage.getItem('user'));
+      const loggedIn = localStorage.getItem('loggedIn');
+      const isAdmin = localStorage.getItem('isAdmin') === "true";
+
+      if (!user || loggedIn !== "true") {
+        window.location.href = "login.html";
+        return;
+      }
+
+      document.getElementById("user-info").innerHTML = `
+        <p><strong>الاسم:</strong> ${user.name}</p>
+        <p><strong>البريد الإلكتروني:</strong> ${user.email}</p>
+        <p><strong>رقم الجوال:</strong> ${user.phone}</p>
+      `;
+
+      if (isAdmin) {
+        document.getElementById("admin-links").innerHTML = `
+          <a href="admin_bookings.html">📋 إدارة الحجوزات</a> |
+          <a href="admin_transfers.html">💳 التحويلات البنكية</a>
+        `;
+      }
+
+      renderUserList();
+      renderPropertyList();
+    }
+
+    function logoutUser() {
+      localStorage.clear();
+      window.location.href = "login.html";
+    }
+
+    function addUser() {
+      const name = document.getElementById("newUser").value.trim();
+      if (!name) return;
+      let users = JSON.parse(localStorage.getItem("users")) || [];
+      users.push(name);
+      localStorage.setItem("users", JSON.stringify(users));
+      renderUserList();
+      document.getElementById("newUser").value = "";
+    }
+
+    function renderUserList() {
+      const users = JSON.parse(localStorage.getItem("users")) || [];
+      const ul = document.getElementById("userList");
+      ul.innerHTML = "";
+      users.forEach((name, index) => {
+        ul.innerHTML += `<li>${name} <button onclick="deleteUser(${index})">حذف</button></li>`;
+      });
+    }
+
+    function deleteUser(index) {
+      let users = JSON.parse(localStorage.getItem("users")) || [];
+      users.splice(index, 1);
+      localStorage.setItem("users", JSON.stringify(users));
+      renderUserList();
+    }
+
+    function addProperty() {
+      const name = document.getElementById("newProperty").value.trim();
+      if (!name) return;
+      let props = JSON.parse(localStorage.getItem("properties")) || [];
+      props.push(name);
+      localStorage.setItem("properties", JSON.stringify(props));
+      renderPropertyList();
+      document.getElementById("newProperty").value = "";
+    }
+
+    function renderPropertyList() {
+      const props = JSON.parse(localStorage.getItem("properties")) || [];
+      const ul = document.getElementById("propertyList");
+      ul.innerHTML = "";
+      props.forEach((name, index) => {
+        ul.innerHTML += `<li>${name} <button onclick="deleteProperty(${index})">حذف</button></li>`;
+      });
+    }
+
+    function deleteProperty(index) {
+      let props = JSON.parse(localStorage.getItem("properties")) || [];
+      props.splice(index, 1);
+      localStorage.setItem("properties", JSON.stringify(props));
+      renderPropertyList();
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>تفاصيل العقار | لاحق</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="icon" href="assets/images/laaheg-logo.png">
+  <style>
+    .property-box {
+      max-width: 900px;
+      margin: 2rem auto;
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+      overflow: hidden;
+    }
+    .property-box img {
+      width: 100%;
+      height: auto;
+      border-bottom: 1px solid #eee;
+    }
+    .property-content {
+      padding: 2rem;
+    }
+    .property-content h2 {
+      color: #87407b;
+      margin-bottom: 0.5rem;
+    }
+    .property-content p {
+      margin-bottom: 1rem;
+      line-height: 1.8;
+    }
+    .dates-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+    input[type="date"] {
+      padding: 0.7rem;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      width: 100%;
+    }
+    .features-list {
+      padding-right: 1.5rem;
+      line-height: 2;
+      background-color: #f8f6fb;
+      border-radius: 10px;
+      padding: 1rem;
+      margin-top: 1rem;
+    }
+    .book-btn {
+      display: block;
+      width: 100%;
+      background-color: #87407b;
+      color: white;
+      border: none;
+      padding: 1rem;
+      font-size: 1.1rem;
+      border-radius: 50px;
+      cursor: pointer;
+      margin-top: 2rem;
+      transition: background-color 0.3s ease;
+      text-align: center;
+      text-decoration: none;
+    }
+    .book-btn:hover {
+      background-color: #6e3566;
+    }
+  </style>
+</head>
+<body>
+
+<header class="main-header">
+  <div class="logo-container">
+    <img src="assets/images/laaheg-logo.png" alt="شعار لاحق" />
+    <strong>LAAHEG | لاحق</strong>
+  </div>
+  <nav class="main-nav">
+    <a href="index.html">الرئيسية</a>
+    <a href="listings.html">العقارات</a>
+    <a href="my_bookings.html">حجوزاتي</a>
+    <a href="payment_methods.html">سبل الدفع</a>
+    <a href="contact.html">تواصل معنا</a>
+    <a href="login.html">تسجيل الدخول</a>
+  </nav>
+</header>
+
+<main class="container">
+  <div class="property-box" id="property-details">
+    <img id="property-image" src="assets/images/villa1.jpg" alt="صورة العقار">
+    <div class="property-content">
+      <h2 id="property-title">فيلا فاخرة</h2>
+      <p id="property-description">وصف العقار سيظهر هنا بناءً على رقم العقار.</p>
+      <p id="property-price"><strong>500 ر.س / الليلة</strong></p>
+
+      <div class="dates-grid">
+        <div>
+          <label for="checkin">📅 تاريخ الدخول:</label>
+          <input type="date" id="checkin">
+        </div>
+        <div>
+          <label for="checkout">📅 تاريخ الخروج:</label>
+          <input type="date" id="checkout">
+        </div>
+      </div>
+
+      <div class="features-list">
+        <h4>💡 الخدمات المتوفرة:</h4>
+        <ul>
+          <li>مسبح خاص</li>
+          <li>واي فاي مجاني</li>
+          <li>موقف سيارة</li>
+          <li>خدمة غرف 24/7</li>
+        </ul>
+        <h4 style="margin-top: 1rem;">💳 طرق الدفع المتاحة:</h4>
+        <p>مدى، Apple Pay، فيزا، تمارا، تابي</p>
+      </div>
+
+      <a href="checkout.html" class="book-btn" id="reserveBtn">احجز وادفع الآن</a>
+    </div>
+  </div>
+</main>
+<footer class="main-footer" style="text-align:center; padding: 1rem; background-color:#570249;">
+  <p>© 2025 لاحق | جميع الحقوق محفوظة</p>
+  <div style="margin-top: 0.5rem;">
+    <a href="index.html">🏠 الرئيسية</a> |
+    <a href="https://twitter.com/LAAHEG1" target="_blank">تويتر</a> |
+    <a href="https://instagram.com/laaheg1" target="_blank">إنستغرام</a> |
+    <a href="payment_policy.html">سياسة الدفع</a> |
+    <a href="cancel_policy.html">سياسة الإلغاء</a> |
+    <a href="privacy_policy.html">سياسة الخصوصية</a> |
+    <a href="terms.html">الشروط والأحكام</a>
+  </div>
+</footer>
+
+
+<script>
+  const urlParams = new URLSearchParams(window.location.search);
+  const propertyId = urlParams.get('propertyId');
+
+  const properties = {
+    1: {
+      title: "برج فاخر - الرياض",
+      description: "برج بتصميم عصري في قلب الرياض مع إطلالة رائعة.",
+      price: "480 ر.س / الليلة",
+      image: "assets/images/villa1.jpg",
+      rooms: 3,
+      baths: 2,
+      location: "حي العليا، الرياض"
+    },
+    2: {
+      title: "فيلا راقية - جدة",
+      description: "فيلا بمسبح خاص وخدمة فندقية في شمال جدة.",
+      price: "650 ر.س / الليلة",
+      image: "assets/images/villa2.jpg",
+      rooms: 5,
+      baths: 4,
+      location: "حي الشاطئ، جدة"
+    }
+    // أضف المزيد حسب الحاجة
+  };
+
+  const data = properties[propertyId];
+  if (data) {
+    document.getElementById("property-title").textContent = data.title;
+    document.getElementById("property-description").textContent = data.description;
+    document.getElementById("property-price").textContent = data.price;
+    document.getElementById("property-image").src = data.image;
+    document.getElementById("property-image").alt = data.title;
+
+    const extra = document.createElement("div");
+    extra.innerHTML = `
+      <p><strong>عدد الغرف:</strong> ${data.rooms}</p>
+      <p><strong>عدد الحمامات:</strong> ${data.baths}</p>
+      <p><strong>الموقع:</strong> ${data.location}</p>
+    `;
+    document.querySelector(".property-content").appendChild(extra);
+  }
+
+  document.getElementById("reserveBtn").addEventListener("click", function (event) {
+    const checkin = document.getElementById("checkin").value;
+    const checkout = document.getElementById("checkout").value;
+
+    if (!checkin || !checkout) {
+      alert("يرجى اختيار تاريخ الدخول والخروج أولاً");
+      event.preventDefault();
+      return;
+    }
+
+    const booking = {
+      title: data.title,
+      price: data.price,
+      checkin: new Date(checkin).toLocaleDateString(),
+      checkout: new Date(checkout).toLocaleDateString()
+    };
+
+    const bookings = JSON.parse(localStorage.getItem("bookings")) || [];
+    bookings.push(booking);
+    localStorage.setItem("bookings", JSON.stringify(bookings));
+  });
+</script>
+
+</body>
+</html>

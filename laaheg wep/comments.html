@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>التعليقات | لاحق</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <style>
+    .comment-section {
+      max-width: 700px;
+      margin: 4rem auto;
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    .comment-section h2 {
+      color: #4e2358;
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+    .comment {
+      background: #f3edf6;
+      padding: 1rem;
+      border-radius: 10px;
+      margin-bottom: 1rem;
+    }
+    .comment strong {
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+    textarea {
+      width: 100%;
+      height: 100px;
+      margin-bottom: 1rem;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      padding: 0.7rem;
+      font-family: 'Cairo', sans-serif;
+    }
+    button {
+      background-color: #7a386e;
+      color: white;
+      padding: 0.6rem 1.5rem;
+      border: none;
+      border-radius: 30px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #4e2358;
+    }
+  </style>
+</head>
+<body onload="loadComments()">
+  <header class="main-header">
+    <div class="logo-container">
+      <img src="assets/images/laaheg-logo.png" alt="شعار لاحق" />
+      <strong>LAAHEG | لاحق</strong>
+    </div>
+    <nav class="main-nav">
+      <a href="index.html">الرئيسية</a>
+      <a href="listings.html">العقارات</a>
+      <a href="my_bookings.html">حجوزاتي</a>
+      <a href="payment_methods.html">سبل الدفع</a>
+      <a href="contact.html">تواصل معنا</a>
+      <a href="login.html">تسجيل الدخول</a>
+    </nav>
+  </header>
+  
+  <main class="comment-section">
+    <h2>آراء الزوار</h2>
+
+    <div id="comments-list">
+      <!-- التعليقات تظهر هنا -->
+    </div>
+
+    <textarea id="comment-input" placeholder="اكتب تعليقك..."></textarea>
+    <button onclick="submitComment()">إرسال التعليق</button>
+  </main>
+
+  <script>
+    function loadComments() {
+      const comments = JSON.parse(localStorage.getItem('comments') || '[]');
+      const container = document.getElementById('comments-list');
+      if (comments.length === 0) {
+        container.innerHTML = '<p style="text-align:center">لا توجد تعليقات بعد.</p>';
+        return;
+      }
+      container.innerHTML = comments.map(c => `
+        <div class="comment">
+          <strong>${c.name || 'زائر'}</strong>
+          <p>${c.text}</p>
+        </div>`).join('');
+    }
+
+    function submitComment() {
+      const text = document.getElementById('comment-input').value.trim();
+      if (!text) return alert('يرجى كتابة التعليق');
+
+      const user = JSON.parse(localStorage.getItem('user'));
+      const comments = JSON.parse(localStorage.getItem('comments') || '[]');
+      comments.push({ name: user?.name || 'زائر', text });
+      localStorage.setItem('comments', JSON.stringify(comments));
+      document.getElementById('comment-input').value = '';
+      loadComments();
+    }
+  </script>
+
+<footer class="main-footer" style="text-align:center; padding: 1rem; background-color:#f9f9f9;">
+  <p>© 2025 لاحق | جميع الحقوق محفوظة</p>
+  <div style="margin-top: 0.5rem;">
+    <a href="https://twitter.com/laaheg" target="_blank">تويتر</a> |
+    <a href="https://instagram.com/laaheg" target="_blank">إنستغرام</a> |
+    <a href="payment_policy.html">سياسة الدفع</a>
+  </div>
+</footer>
+
+</body>
+</html>
